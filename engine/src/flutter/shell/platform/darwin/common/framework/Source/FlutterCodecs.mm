@@ -108,7 +108,10 @@ FLUTTER_ASSERT_ARC
     }
     decoded = [NSJSONSerialization JSONObjectWithData:message options:0 error:&error];
   }
-  NSAssert(decoded, @"Invalid JSON message, decoding failed: %@", error);
+  if (!decoded) {
+    NSLog(@"Invalid JSON message, decoding failed: %@", error);
+    return nil;
+  }
   return isSimpleValue ? ((NSArray*)decoded)[0] : decoded;
 }
 @end
